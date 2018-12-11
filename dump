@@ -1,0 +1,452 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.3
+-- Dumped by pg_dump version 10.4
+
+-- Started on 2018-12-11 00:02:16
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12924)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2846 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 198 (class 1259 OID 45585)
+-- Name: crimes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.crimes (
+    id bigint NOT NULL,
+    criminoso_id bigint,
+    ocorrencia_id bigint
+);
+
+
+ALTER TABLE public.crimes OWNER TO postgres;
+
+--
+-- TOC entry 197 (class 1259 OID 45583)
+-- Name: crimes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.crimes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.crimes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2847 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: crimes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.crimes_id_seq OWNED BY public.crimes.id;
+
+
+--
+-- TOC entry 200 (class 1259 OID 45593)
+-- Name: criminosos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.criminosos (
+    id bigint NOT NULL,
+    celular character varying(255),
+    cpf character varying(255),
+    data_nascimento date,
+    estado_civil character varying(255),
+    genero character varying(255),
+    nacionalidade character varying(255),
+    naturalidade character varying(255),
+    nome character varying(255),
+    nome_mae character varying(255),
+    nome_pai character varying(255),
+    padrao_atuacao_criminal text,
+    profissao character varying(255),
+    rg character varying(255),
+    endereco_id bigint
+);
+
+
+ALTER TABLE public.criminosos OWNER TO postgres;
+
+--
+-- TOC entry 199 (class 1259 OID 45591)
+-- Name: criminosos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.criminosos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.criminosos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2848 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: criminosos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.criminosos_id_seq OWNED BY public.criminosos.id;
+
+
+--
+-- TOC entry 202 (class 1259 OID 45604)
+-- Name: enderecos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.enderecos (
+    id bigint NOT NULL,
+    bairro character varying(255),
+    cep character varying(255),
+    cidade character varying(255),
+    complemento character varying(255),
+    logradouro character varying(255),
+    uf character varying(255)
+);
+
+
+ALTER TABLE public.enderecos OWNER TO postgres;
+
+--
+-- TOC entry 201 (class 1259 OID 45602)
+-- Name: enderecos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.enderecos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enderecos_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2849 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: enderecos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.enderecos_id_seq OWNED BY public.enderecos.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 25127)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 45615)
+-- Name: ocorrencias; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ocorrencias (
+    id bigint NOT NULL,
+    data date,
+    descricao text,
+    hora time without time zone,
+    endereco_id bigint
+);
+
+
+ALTER TABLE public.ocorrencias OWNER TO postgres;
+
+--
+-- TOC entry 203 (class 1259 OID 45613)
+-- Name: ocorrencias_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ocorrencias_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ocorrencias_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2850 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: ocorrencias_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ocorrencias_id_seq OWNED BY public.ocorrencias.id;
+
+
+--
+-- TOC entry 2693 (class 2604 OID 45588)
+-- Name: crimes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.crimes ALTER COLUMN id SET DEFAULT nextval('public.crimes_id_seq'::regclass);
+
+
+--
+-- TOC entry 2694 (class 2604 OID 45596)
+-- Name: criminosos id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.criminosos ALTER COLUMN id SET DEFAULT nextval('public.criminosos_id_seq'::regclass);
+
+
+--
+-- TOC entry 2695 (class 2604 OID 45607)
+-- Name: enderecos id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enderecos ALTER COLUMN id SET DEFAULT nextval('public.enderecos_id_seq'::regclass);
+
+
+--
+-- TOC entry 2696 (class 2604 OID 45618)
+-- Name: ocorrencias id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ocorrencias ALTER COLUMN id SET DEFAULT nextval('public.ocorrencias_id_seq'::regclass);
+
+
+--
+-- TOC entry 2832 (class 0 OID 45585)
+-- Dependencies: 198
+-- Data for Name: crimes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.crimes (id, criminoso_id, ocorrencia_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2834 (class 0 OID 45593)
+-- Dependencies: 200
+-- Data for Name: criminosos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.criminosos (id, celular, cpf, data_nascimento, estado_civil, genero, nacionalidade, naturalidade, nome, nome_mae, nome_pai, padrao_atuacao_criminal, profissao, rg, endereco_id) FROM stdin;
+7	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	Rodney Alcala 6	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	Alcala approached the victims identifying himself as a photographer. He took several photos of his victims inviting them to get into his car. He took his victims to discreet places where he carried out brutal crimes always in sequence. He beat them, raped them, and then killed their victims quite violently, usually with heavy tools such as hammers and stones, as well as kills by strangulation by nylon cords, belts, socks and shoelaces.	Analista Programador	389683632	11
+6	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	Ted Bundy 7	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	Always presenting himself as TED, he dressed like a helpless man. When approaching women, he is always presenting several times with the crutches or the extended arm and next to a vehicle of the brand Volkswagen. Her taste was women, skinny, single and with long hair arranged in the middle. Always acting sexuality abusing its victims and soon after as it kills with proven head blows of a pointed object.	Analista Programador	389683632	10
+4	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	Francisco de Assis Pereira 1	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	Pereira approached his victims, young women, in the street in places with bus stops. She presented herself as a modeling agent, covered women with praise, and offered a photo shoot in the midst of nature. Convinced, the women got on their motorcycle and took them to the state park. In the middle of the forest, Pereira raped but was in great pain and killed the women by strangulation.	Analista Programador	389683632	6
+5	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	John Wayne Gacy 4	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	He approached adolescents by being a police officer, researcher offering money for the research or an employer convincing them to go to the basement of their home where they would offer alcohol, drugs, and pornography for free to young people. After the high consumption of these substances and the youth were almost incapacitated for a reaction, he practiced sexual relations with the young.	Analista Programador	389683632	8
+1	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	João Acácio Pereira da Costa 3	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	Invader of houses his preference was by mansions and always it entered the houses in the last hours of the dawn, cutting off the energy of the house.\nHe wore a handkerchief to cover his face and his main brand carried a flashlight with a red mouthpiece that emitted a red light.\nThe victims called him a bandit of red light.	Analista Programador	389683632	2
+2	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	Martin Durkin Costa 5	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	Theft and high-powered car transport that was sold shortly after all vehicle identification numbers were changed.\nIts main focus was automobiles of the automakers Pierce Arrows, Cadillacs, and Packards.\nHe always presented himself as a potential buyer at the dealerships who dealt with these expensive cars.\nHe agreed to buy the car and asked to be stocked with gas and oil to be delivered to him the next day.\nThat same night, he would even break the car and steal the car he had previously chosen.\nWith the car, he changed all the numbering that could identify the stolen vehicle and took it to another state, where it was sold.	Analista Programador	389683632	3
+8	83996552547	31092423621	1994-04-27	Solteiro	Feminino	Alvorada	Brasileiro	Heraldo Barroso Madureira - 2	Joece Mara Correa Rodrigues	Jose Lusimario De Oliveira	Heraldo se apresentava às mulheres como Robson e se dizia interessado em comprar um vestido de noiva para a cunhada ou a irmã. Voltava uma ou duas vezes para se certificar do horário em que a mulher estaria só e, numa última visita, a atacava. Ele recortava anúncios classificados dos jornais, ia aos endereços anunciados e assaltava e estuprava as mulheres que por ventura encontrava sozinhas em casa. Maníaco, dava preferência a anúncios que ofereciam vestidos de noiva.	Analista Programador	389683632	16
+\.
+
+
+--
+-- TOC entry 2836 (class 0 OID 45604)
+-- Dependencies: 202
+-- Data for Name: enderecos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.enderecos (id, bairro, cep, cidade, complemento, logradouro, uf) FROM stdin;
+1	Santa Rita	68901266	Macapá		Rua do Canal	AP
+2	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+3	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+4	centro	54919819	campina grande		Endereco	pb
+6	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+7	Santa Rita	68901266	Macapá		Parque do estado	AP
+8	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+9	Santa Rita	68901266	Macapá		Parque do estudo	AP
+10	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+11	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+12	11 de abril	65414165	Alvorada	Perto do juca	Rua 16 unidos	RS
+13	Centro	64654654	Campina Grande		Açude velo	PB
+14	40	58135000	Esperança	Piscina da gracinha	Rua do boi	PB
+15	Cidade alta	98498498	Natal		Rua das arabias	RN
+16	Centro	58135000	Esperança		Alfredo Régis	Paraiba
+17	Santa Rita	68901266	Macapá		Joao mendes	AP
+\.
+
+
+--
+-- TOC entry 2838 (class 0 OID 45615)
+-- Dependencies: 204
+-- Data for Name: ocorrencias; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ocorrencias (id, data, descricao, hora, endereco_id) FROM stdin;
+5	1994-04-24	A body was found gagged in the neighborhood of the forties. The body appears to have been beaten and sexually assaulted. Hanged with a stocking, and the gonfado pierced with a mair to the side, the body was found in the advanced state of putrefaction.	02:00:00	12
+6	2018-11-11	A guy, self-styled TED, with some kind of problem on his right leg and using crutches, approached in the mediations of the old reservoir a young woman, 26 years old, blonde, saying that she was lost where, in due course, she asked the young woman for help. The young woman reported that it was night, and suddenly the conversation started to get strange, when suddenly TED held her and put her in a car that was next. The victim reported that she was taken to the Itaarare district when she was in a vacant lot, was gagged and sexually abused.	00:24:00	13
+7	2018-10-20	An individual carrying a semi-automatic firearm invaded an environment, a swimming pool, where a family celebration was taking place. It yielded to all announcing assault, soon after ordered that all were seated willing of the youngest in the front and the older ones behind. Soon after, he took the youngest, an 8-year-old child, as a hostage and demanded all the belongings of those who were there, about 17 people. The individual appeared to be about 30 years old, was white, had tattoos on his right arm and left leg, was about 1.75 meters and about 70 kilos. After stealing all the belongings escaped in a Fiat Uno car of one of the victims, taking with him the child. Soon thereafter the car with the child was found about 5 kilometers from the place of the suit.	14:30:00	14
+8	2010-04-13	Persecution of a stolen car. The suspect vehicle, an armored black Toyota Corolla, did not obey the police order when it stopped by Avenida Washington Luis, in front of the Congonhas Airport. In the car were four men. On the run, the car crashed into five other cars on the track. The thugs got out of the car firing at the cops, who fought back. Inside the stolen car were tampered plates.	11:11:00	15
+3	2018-10-12	Attempted rape of an 18-year-old girl. She reported that she was at the bus stop when a man claiming to be a modeling agent convinced her to hold a photo shoot in the wild. Convinced, the victim climbed on the bike of the then agent, who took her to the state park. When entering the middle of the forest, the agent forced the victim to have sex and at the end, tried to strangle the victim. With a kick the victim managed to escape, running for help until a man helped her and brought her to the report of this bulletin	14:56:00	7
+1	2018-10-12	House broken into the dawn of the day of this bulletin, where the victim reported that when perceiving a strange movement in the fifth of its mansion rose to verify what was happening. At this moment the energy of his house was cut off, in moments an unidentified person began to circulate around the residence with a flashlight that emitted a red light.	14:56:00	1
+2	2018-11-10	A Cadillac dealership in San Diego, Calif., Reported to the FBI's Los Angeles office that a new Cadillac Phaeton with brown California top, green body and green wood wheels had been stolen from their show room. The engine, serial numbers and other mounting numbers on this stolen Cadillac were purchased by FBI agents. In an effort to stop this car based on the theory that perhaps the thief who drove it was Martin Durkin, all the roads linking California to the eastern United States were covered. This systematic coverage of all highways was performed by Bureau agents in field offices in Los Angeles; Phoenix, Arizona; Denver, Colorado; El Paso, San Antonio and Dallas, Texas; and Oklahoma City, Oklahoma. The transcontinental highways leading to the east were covered by shotgun squads day and night for almost a week without success. Cadillac did not show up.	15:33:00	4
+4	2018-10-12	The adolescent was approached by a subject who was said to be a researcher, informed the teenager that for the research was paid a cash amount equal to $ 50.00 and to be paid, the teenager would need to go home. Upon arriving at the place, the rapporteur described that he was offered alcohol and pornography, after some time of consumption, the adolescent reported that erased due to heavy alcohol consumption. When he awoke he realized that he was naked and that he had been sexually abused by the then researcher. The rapporteur was able to flee after he struck the investigator and fled through the door of what appeared to be a basement of a house.	14:56:00	9
+9	2018-11-15	\nUma jovem relatou que apos ser contatada por um homem, referente ao um anuncio de venda de um vestido de noiva, sofreu tentativa de estupro. O homem de estatura mediana, negro, contatou a jovem mais de duas vezes todos elas referente ao venda do vestido. O mesmo, relatava que estava comprando a roupa para sua irmã que iria casar em breve. Apos ser solicitada a vestir a roupa com intuito comparativo, a jovem relatou que o homem, a agarrou e começou a acaricia-lá. Ela em um movimento rapido de empurrão conseguiu escapar e pedir socorro para um vizinho.	14:56:00	17
+\.
+
+
+--
+-- TOC entry 2851 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: crimes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.crimes_id_seq', 1, false);
+
+
+--
+-- TOC entry 2852 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: criminosos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.criminosos_id_seq', 8, true);
+
+
+--
+-- TOC entry 2853 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: enderecos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.enderecos_id_seq', 17, true);
+
+
+--
+-- TOC entry 2854 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 1, false);
+
+
+--
+-- TOC entry 2855 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: ocorrencias_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ocorrencias_id_seq', 9, true);
+
+
+--
+-- TOC entry 2698 (class 2606 OID 45590)
+-- Name: crimes crimes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.crimes
+    ADD CONSTRAINT crimes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2700 (class 2606 OID 45601)
+-- Name: criminosos criminosos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.criminosos
+    ADD CONSTRAINT criminosos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2702 (class 2606 OID 45612)
+-- Name: enderecos enderecos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.enderecos
+    ADD CONSTRAINT enderecos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2704 (class 2606 OID 45623)
+-- Name: ocorrencias ocorrencias_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ocorrencias
+    ADD CONSTRAINT ocorrencias_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2706 (class 2606 OID 45629)
+-- Name: crimes fk5ehwa1k9ujxrrk4ushi2t5i6q; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.crimes
+    ADD CONSTRAINT fk5ehwa1k9ujxrrk4ushi2t5i6q FOREIGN KEY (ocorrencia_id) REFERENCES public.ocorrencias(id);
+
+
+--
+-- TOC entry 2707 (class 2606 OID 45634)
+-- Name: criminosos fk8nh1bhjsxrklt17ik2fnv8xtf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.criminosos
+    ADD CONSTRAINT fk8nh1bhjsxrklt17ik2fnv8xtf FOREIGN KEY (endereco_id) REFERENCES public.enderecos(id);
+
+
+--
+-- TOC entry 2705 (class 2606 OID 45624)
+-- Name: crimes fk9rifffqb1cnc9o3j6exyi7h4b; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.crimes
+    ADD CONSTRAINT fk9rifffqb1cnc9o3j6exyi7h4b FOREIGN KEY (criminoso_id) REFERENCES public.criminosos(id);
+
+
+--
+-- TOC entry 2708 (class 2606 OID 45639)
+-- Name: ocorrencias fkcw68a1vccdeiqht7g0as5yyuv; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ocorrencias
+    ADD CONSTRAINT fkcw68a1vccdeiqht7g0as5yyuv FOREIGN KEY (endereco_id) REFERENCES public.enderecos(id);
+
+
+-- Completed on 2018-12-11 00:02:17
+
+--
+-- PostgreSQL database dump complete
+--
+
